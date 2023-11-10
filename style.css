@@ -1,0 +1,213 @@
+@use 'sass:math';
+
+$main-width: 500px;
+$light-blue: #daecff;
+$medium-blue: #6ba9e7;
+$dark-blue: #2b2980;
+$pink: #d3c1ff;
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  background-image: linear-gradient(141deg, #e6eaff, #f1f1f1, #f1f1ff);
+}
+
+h1 {
+  margin: 50px;
+  text-align: center;
+  font-size: 55px;
+  font-weight: 300;
+  color: $dark-blue;
+}
+
+select {
+  padding: 5px;
+}
+
+button,
+input[type='submit'],
+select {
+  border: none;
+  opacity: 0.75;
+  transition: 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    box-shadow: #b4aafd 1px 1px 7px 0px;
+    color: white;
+  }
+}
+
+.board {
+  margin: 10px auto;
+  width: $main-width;
+  height: $main-width;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 1px;
+  background-image: radial-gradient(#8694a7, 40%, #daecff);
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $light-blue;
+  opacity: 1;
+  
+  &:hover {
+    opacity: 0.85;
+    cursor: pointer;
+  }
+
+  @for $i from 1 through 9 {
+    &:nth-child(#{$i}) {
+      grid-column-start: (($i - 1) % 3) + 1;
+      grid-row-start: math.floor(($i - 1) / 3) + 1;
+    }
+  }
+
+  img {
+    width: 0;
+    height: 0;
+    transition: 0.3s;
+    transition-timing-function: cubic-bezier(0.03, 0.52, 0.48, 1.56);
+  }
+}
+
+.img-visible img {
+  width: 62%;
+  height: auto;
+}
+
+.result {
+  grid-column: 1 / 4;
+  grid-row: 1 / 4;
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  height: 0;
+  width: 0;
+  color: white;
+  background-color: #1d325da3;
+  transition: 0.2s;
+
+  h3 {
+    font-size: 40px;
+    margin: 10px;
+  }
+}
+
+.rematch {
+  display: none;
+  width: 150px;
+  height: 45px;
+  font-size: 16px;
+  border: none;
+  background-color: $light-blue;
+  opacity: 0.7;
+  transition: 0.3s;
+
+  &:hover {
+    transition: 0.5s;
+    opacity: 0.9;
+  }
+}
+
+.winning-line {
+  background-color: $medium-blue;
+}
+
+// setup and game panel
+
+.setup-panel {
+  margin: auto;
+  width: $main-width;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 3px;
+
+  select {
+    height: 30px;
+    border: none;
+    background-color: $pink;
+  }
+
+  input[type='submit'] {
+    height: 35px;
+    background-color: $medium-blue;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  h3 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+}
+
+.start-game {
+  grid-column: 1 / 4;
+}
+
+.game-panel {
+  width: $main-width;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 35px;
+  grid-gap: 3px;
+
+  button {
+    height: 30px;
+    background-color: $pink;
+  }
+
+  p {
+    align-self: end;
+    margin: 0;
+    font-size: 18px;
+    color: #252525;
+  }
+
+  .player2-score {
+    text-align: end;
+  }
+}
+
+.status {
+  grid-column: 1 / 3;
+}
+
+.hidden {
+  display: none;
+}
+
+.unavailable {
+  opacity: inherit !important;
+  cursor: default !important;
+  pointer-events: none;
+}
